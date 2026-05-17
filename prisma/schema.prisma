@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id_user    Int      @id @default(autoincrement())
+  username   String
+  email      String   @unique
+  password   String
+  id_title   Int?
+  created_at DateTime @default(now())
+
+  title            Title?            @relation(fields: [id_title], references: [id_title])
+  user_xp          UserXP[]
+  user_points      UserPoints[]
+  riwayat          Riwayat[]
+  user_achievement UserAchievement[]
+  penukaran_reward PenukaranReward[]
+  komunitas_dibuat Komunitas[]       @relation("KomunitasCreator")
+  anggota          Anggota[]
+  post             Post[]
+
+  @@map("users")
+}
+
+model UserXP {
+  id_history Int      @id @default(autoincrement())
+  id_user    Int
+  xp         Int
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [id_user], references: [id_user])
+
+  @@map("user_xp")
+}
+
+model UserPoints {
+  id_history Int      @id @default(autoincrement())
+  id_user    Int
+  points     Int
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [id_user], references: [id_user])
+
+  @@map("user_points")
+}
+
+model Title {
+  id_title   Int    @id @default(autoincrement())
+  nama_title String
+  min_xp     Int
+
+  users User[]
+
+  @@map("titles")
+}
+
+model KategoriSampah {
+  id_kategori   Int     @id @default(autoincrement())
+  nama_kategori String
+  deskripsi     String?
+
+  sampah Sampah[]
+
+  @@map("kategori_sampah")
+}
+
+model Sampah {
+  id_sampah   Int     @id @default(autoincrement())
+  nama        String
+  id_kategori Int
+  xp          Int
+  point       Int
+  deskripsi   String?
+
+  kategori           KategoriSampah     @relation(fields: [id_kategori], references: [id_kategori])
+  panduan_daur_ulang PanduanDaurUlang[]
+  riwayat            Riwayat[]
+
+  @@map("sampah")
+}
+
+model PanduanDaurUlang {
+  id_panduan Int    @id @default(autoincrement())
+  id_sampah  Int
+  hasil      String
+  langkah    String
+
+  sampah Sampah @relation(fields: [id_sampah], references: [id_sampah])
+
+  @@map("panduan_daur_ulang")
+}
+
+model Riwayat {
+  id_sorting Int      @id @default(autoincrement())
+  id_user    Int
+  id_sampah  Int
+  jumlah     Int
+  tanggal    DateTime @default(now())
+  xp         Int
+  point      Int
+
+  user   User   @relation(fields: [id_user], references: [id_user])
+  sampah Sampah @relation(fields: [id_sampah], references: [id_sampah])
+
+  @@map("riwayat")
+}
+
+model Achievement {
+  id_achievement   Int     @id @default(autoincrement())
+  nama_achievement String
+  deskripsi        String?
+  target           Int
+  reward_xp        Int
+
+  user_achievement UserAchievement[]
+
+  @@map("achievement")
+}
+
+model UserAchievement {
+  id_user_achievement Int      @id @default(autoincrement())
+  id_user             Int
+  id_achievement      Int
+  tanggal_tercapai    DateTime @default(now())
+
+  user        User        @relation(fields: [id_user], references: [id_user])
+  achievement Achievement @relation(fields: [id_achievement], references: [id_achievement])
+
+  @@map("user_achievement")
+}
+
+model Reward {
+  id_reward Int    @id @default(autoincrement())
+  nama      String
+  jenis     String
+  poin      Int
+  stok      Int
+
+  penukaran_reward PenukaranReward[]
+
+  @@map("reward")
+}
+
+model PenukaranReward {
+  id_penukaran      Int      @id @default(autoincrement())
+  id_user           Int
+  id_reward         Int
+  tanggal_penukaran DateTime @default(now())
+  status            String
+
+  user   User   @relation(fields: [id_user], references: [id_user])
+  reward Reward @relation(fields: [id_reward], references: [id_reward])
+
+  @@map("penukaran_reward")
+}
+
+model Komunitas {
+  id_komunitas   Int      @id @default(autoincrement())
+  nama_komunitas String
+  deskripsi      String?
+  created_by     Int
+  created_at     DateTime @default(now())
+
+  creator User @relation("KomunitasCreator", fields: [created_by], references: [id_user])
+
+  anggota Anggota[]
+  post    Post[]
+
+  @@map("komunitas")
+}
+
+model Anggota {
+  id_anggota   Int      @id @default(autoincrement())
+  id_komunitas Int
+  id_user      Int
+  role         String
+  joined_at    DateTime @default(now())
+
+  komunitas Komunitas @relation(fields: [id_komunitas], references: [id_komunitas])
+  user      User      @relation(fields: [id_user], references: [id_user])
+
+  @@map("anggota")
+}
+
+model Post {
+  id_post      Int      @id @default(autoincrement())
+  id_komunitas Int
+  id_user      Int
+  title        String
+  desc         String
+  media        String?
+  created_at   DateTime @default(now())
+
+  komunitas Komunitas @relation(fields: [id_komunitas], references: [id_komunitas])
+  user      User      @relation(fields: [id_user], references: [id_user])
+
+  @@map("post")
+}
