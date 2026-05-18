@@ -8,8 +8,8 @@ export const create = async (req: Request, res: Response) => {
     res.status(201).json(data)
   } catch (error:any) {
     res.status(500).json({ message: error.message || "Failed to create user" })
-  }
-}
+  };
+};
 
 export const findAll = async (req: Request, res: Response) => {
   try {
@@ -17,8 +17,8 @@ export const findAll = async (req: Request, res: Response) => {
     res.json(data)
   } catch (error:any) {
     res.status(500).json({ message: error.message || "Failed to fetch users" })
-  }
-}
+  };
+};
 
 export const findOne = async (req: Request, res: Response) => {
   try {
@@ -32,8 +32,8 @@ export const findOne = async (req: Request, res: Response) => {
     res.json(data).json(data)
   } catch (error:any) {
     res.status(500).json({ message: error.message || "Failed to fetch user" })
-  }
-}
+  };
+};
 
 export const update = async (req: Request, res: Response) => {
   try {
@@ -47,8 +47,8 @@ export const update = async (req: Request, res: Response) => {
     res.status(200).json(data)
   } catch (error:any) {
     res.status(500).json({ message: error.message ||  "Failed to update user" })
-  }
-}
+  };
+};
 
 export const updatePassword = async (req:Request, res:Response) => {
   try {
@@ -57,8 +57,8 @@ export const updatePassword = async (req:Request, res:Response) => {
     res.status(200)
   } catch (error:any) {
     res.status(500).json({ message: error.message || "Failed to update password" })
-  }
-}
+  };
+};
 
 export const remove = async (req: Request, res: Response) => {
   try {
@@ -67,8 +67,8 @@ export const remove = async (req: Request, res: Response) => {
     res.json({ message:"User deleted" })
   } catch (error: any) {
     res.status(500).json({ message: error.message || "Failed to delete user" })
-  }
-}
+  };
+};
 
 export const findUserProfile = async (req: Request, res: Response) => {
   try {
@@ -82,5 +82,5 @@ export const findUserProfile = async (req: Request, res: Response) => {
     res.json(data)
   } catch (error:any) {
     res.status(500).json({ message: "Failed to get user profile" })
-  }
-}
+  };
+};
