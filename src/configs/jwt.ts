@@ -9,5 +9,5 @@ export const generateToken = (payload:object) => {
 }
 
 export const verifyToken = (token:string) => {
-  jwt.verify(token, jwtsecret)
+  jwt.verify(token, jwtsecret);
 }
