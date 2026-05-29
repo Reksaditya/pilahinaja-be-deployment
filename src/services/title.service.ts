@@ -1,4 +1,4 @@
-import { prisma } from "../configs/prisma";
+import prisma from "../configs/prisma";
 
 export const createTitle = async (data:any) => {
   return prisma.title.create({ data });

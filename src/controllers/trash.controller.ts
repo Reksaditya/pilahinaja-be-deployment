@@ -3,58 +3,58 @@ import * as service from "../services/trash.service"
 
 export const create = async (req: Request, res: Response) => {
   try {
-    const data = await service.createTrash(req.body)
-    res.status(201).json(data)
+    const data = await service.createTrash(req.body);
+    res.status(201).json(data);
   } catch (error:any) {
-    res.status(500).json({ message:"Failed to create trash" })
-  }
-}
+    res.status(500).json({ message:"Failed to create trash" });
+  };
+};
 
 export const findAll = async (req: Request, res: Response) => {
   try {
-    const data = await service.getTrashs()
-    res.json(data)
+    const data = await service.getTrash();
+    res.json(data);
   } catch (error:any) {
-    res.status(500).json({ message: error.message || "Failed to fetch categories" })
-  }
-}
+    res.status(500).json({ message: error.message || "Failed to fetch trashes" });
+  };
+};
 
 export const findOne = async (req: Request, res: Response) => {
   try {
-    const id = Number(req.params.id)
-    const data = await service.getTrash(id)
+    const id = Number(req.params.id);
+    const data = await service.getTrashById(id);
 
     if (!data) {
-      res.status(404).json({ message:"Category not found" })
-    }
+      res.status(404).json({ message:"Category not found" });
+    };
 
-    res.json(data)
+    res.json(data);
   } catch (error:any) {
-    res.status(500).json({ message: error.message || "Failed to fetch category" })
-  }
-}
+    res.status(500).json({ message: error.message || "Failed to fetch category" });
+  };
+};
 
 export const update = async (req: Request, res: Response) => {
   try {
-    const id = Number(req.params.id)
-    const data = await service.updateTrash(id, req.body)
+    const id = Number(req.params.id);
+    const data = await service.updateTrash(id, req.body);
 
     if (!data) {
-      res.status(404).json({ message:"Category not found" })
-    }
+      res.status(404).json({ message:"Category not found" });
+    };
 
-    res.status(200).json(data)
+    res.status(200).json(data);
   } catch (error:any) {
-    res.status(500).json({ message: error.message || "Failed to fetch category" })
-  }
-}
+    res.status(500).json({ message: error.message || "Failed to fetch category" });
+  };
+};
 
 export const remove = async (req: Request, res: Response) => {
   try {
-    const id = Number(req.params.id)
-    const data = await service.deleteTrash(id)
-    res.json({ message:"User deleted" })
+    const id = Number(req.params.id);
+    const data = await service.deleteTrash(id);
+    res.json({ message:"User deleted" });
   } catch (error: any) {
-    res.status(500).json({ message: error.message || "Failed to delete user" })
+    res.status(500).json({ message: error.message || "Failed to delete user" });
   };
 };

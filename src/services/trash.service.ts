@@ -1,36 +1,45 @@
-import { prisma } from "../configs/prisma"
+import prisma from "../configs/prisma.js";
 
-export const createTrash = async (data:any) => {
-  return prisma.sampah.create({ data })
-}
+export const createTrash = async (body: any) => {
+  return await prisma.sampah.create({
+    data: body,
+  });
+};
 
-export const getTrashs = () => {
-  return prisma.sampah.findMany({
-    include: {
-      kategori: true
-    }
-  })
-}
-
-export const getTrash = (id:number) => {
-  return prisma.sampah.findUnique({
-    where: {id},
+export const getTrash = async () => {
+  return await prisma.sampah.findMany({
     include: {
       kategori: true,
-      panduan_daur_ulang: true
-    }
-  })
-}
+      panduan_daur_ulang: true,
+    },
+  });
+};
 
-export const updateTrash = (id:number, data:any) => {
-  return prisma.sampah.update({
-    where: {id},
-    data
-  })
-}
+export const getTrashById = async (id: number) => {
+  return await prisma.sampah.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      kategori: true,
+      panduan_daur_ulang: true,
+    },
+  });
+};
 
-export const deleteTrash = (id:number) => {
-  return prisma.sampah.delete({
-    where: {id}
-  })
-}
+export const updateTrash = async (id: number, body: any) => {
+  return await prisma.sampah.update({
+    where: {
+      id,
+    },
+    data: body,
+  });
+};
+
+export const deleteTrash = async (id: number) => {
+  return await prisma.sampah.delete({
+    where: {
+      id,
+    },
+  });
+};
