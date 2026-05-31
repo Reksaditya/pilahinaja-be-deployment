@@ -9,6 +9,7 @@ import guideRoutes from "./routes/guide.route"
 import historyRoutes from "./routes/history.route"
 import authRoutes from "./routes/auth.route"
 import achievementRoutes from "./routes/achievement.route"
+import postRoutes from "./routes/post.route"
 
 const app = express()
 app.use(express.json())
@@ -22,5 +23,6 @@ app.use("/api", geminiRoutes)
 app.use("/guide", guideRoutes)
 app.use("/history", historyRoutes)
 app.use("/achievement", achievementRoutes)
+app.use("/post", postRoutes)
 
 export default app
