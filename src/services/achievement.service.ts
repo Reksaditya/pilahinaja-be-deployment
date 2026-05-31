@@ -1,4 +1,4 @@
-import prisma from "../configs/prisma.js";
+import prisma from "../configs/prisma";
 
 export const createAchievement = async (body: any) => {
   return await prisma.achievement.create({
@@ -34,6 +34,13 @@ export const checkAchievement = async (userId: number) => {
         data: {
           userId,
           archievementId: achievement.id,
+        },
+      });
+
+      await prisma.userXP.create({
+        data: {
+          userId,
+          xp: achievement.reward_xp,
         },
       });
     }

@@ -1,4 +1,4 @@
-import prisma from "../configs/prisma.js";
+import prisma from "../configs/prisma";
 
 export const createReward = async (body: any) => {
   return await prisma.reward.create({

@@ -9,6 +9,10 @@ router.get("/:id/profile", controller.profile);
 
 router.post("/", controller.create);
 router.patch("/:id", controller.update);
+router.patch("/:id/password", controller.updatePassword);
 router.delete("/:id", controller.remove);
+
+router.get("/:id/xp", controller.totalXp);
+router.get("/:id/point", controller.totalPoint);
 
 export default router;

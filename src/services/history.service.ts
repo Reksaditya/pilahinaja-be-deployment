@@ -1,11 +1,27 @@
-import prisma from "../configs/prisma.js";
+import prisma from "../configs/prisma";
+import { checkAchievement } from "./achievement.service";
+import { updateUserTitle } from "./title.service";
 
 export const createRiwayat = async (
   userId: number,
   sampahId: number,
   jumlah: number,
 ) => {
+  if (jumlah <= 0) {
+    throw new Error("Jumlah harus lebih dari 0");
+  }
+
   return await prisma.$transaction(async (tx) => {
+    const user = await tx.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     const sampah = await tx.sampah.findUnique({
       where: {
         id: sampahId,
@@ -16,33 +32,37 @@ export const createRiwayat = async (
       throw new Error("Sampah not found");
     }
 
-    const totalXP = sampah.xp * jumlah;
+    const xp = sampah.xp * jumlah;
 
-    const totalPoint = sampah.point * jumlah;
+    const point = sampah.point * jumlah;
 
     const riwayat = await tx.riwayat.create({
       data: {
         userId,
         sampahId,
         jumlah,
-        xp: totalXP,
-        point: totalPoint,
+        xp,
+        point,
       },
     });
 
     await tx.userXP.create({
       data: {
         userId,
-        xp: totalXP,
+        xp,
       },
     });
 
     await tx.userPoints.create({
       data: {
         userId,
-        points: totalPoint,
+        points: point,
       },
     });
+
+    await checkAchievement(userId);
+
+    await updateUserTitle(userId);
 
     return riwayat;
   });

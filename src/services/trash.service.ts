@@ -1,4 +1,4 @@
-import prisma from "../configs/prisma.js";
+import prisma from "../configs/prisma";
 
 export const createTrash = async (body: any) => {
   return await prisma.sampah.create({
