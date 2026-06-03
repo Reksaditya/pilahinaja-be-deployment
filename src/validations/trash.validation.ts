@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const sampahSchema = z.object({
+export const trashSchema = z.object({
   nama: z.string().min(2),
 
   kategoriId: z.number(),

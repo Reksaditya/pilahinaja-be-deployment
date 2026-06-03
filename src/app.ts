@@ -17,11 +17,11 @@ const app = express();
 app.use(express.json());
 
 app.use("/user", userRoutes);
-app.use("/login", authRoutes);
+app.use("/auth", authRoutes);
 app.use("/title", titleRoutes);
 app.use("/category", categoryRoutes);
 app.use("/trash", trashRoutes);
-app.use("/api", geminiRoutes);
+app.use("/ai", geminiRoutes);
 app.use("/guide", guideRoutes);
 app.use("/history", historyRoutes);
 app.use("/achievement", achievementRoutes);

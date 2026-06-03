@@ -3,202 +3,187 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  username   String
-  email      String   @unique
-  password   String
-  titleId    Int?
-  created_at DateTime @default(now())
-
-  title            Title?            @relation(fields: [titleId], references: [id])
-  user_xp          UserXP[]
-  user_points      UserPoints[]
+  username         String
+  email            String            @unique
+  password         String
+  created_at       DateTime          @default(now())
+  id               Int               @id @default(autoincrement())
+  titleId          Int?
+  anggota          Anggota[]
+  komunitas_dibuat Komunitas[]       @relation("KomunitasCreator")
+  penukaran_reward PenukaranReward[]
+  post             Post[]
   riwayat          Riwayat[]
   user_achievement UserAchievement[]
-  penukaran_reward PenukaranReward[]
-  komunitas_dibuat Komunitas[]       @relation("KomunitasCreator")
-  anggota          Anggota[]
-  post             Post[]
+  user_points      UserPoints[]
+  user_xp          UserXP[]
+  title            Title?            @relation(fields: [titleId], references: [id])
 
   @@map("users")
 }
 
 model UserXP {
-  id         Int      @id @default(autoincrement())
-  userId     Int
   xp         Int
   created_at DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
 
   @@map("user_xp")
 }
 
 model UserPoints {
-  id         Int      @id @default(autoincrement())
-  userId     Int
   points     Int
   created_at DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
 
   @@map("user_points")
 }
 
 model Title {
-  id         Int    @id @default(autoincrement())
   nama_title String
   min_xp     Int
-
-  users User[]
+  id         Int    @id @default(autoincrement())
+  users      User[]
 
   @@map("titles")
 }
 
 model Kategori {
-  id            Int     @id @default(autoincrement())
   nama_kategori String
   deskripsi     String?
-
-  sampah Sampah[]
+  id            Int      @id @default(autoincrement())
+  sampah        Sampah[]
 
   @@map("kategori_sampah")
 }
 
 model Sampah {
-  id         Int     @id @default(autoincrement())
-  nama       String
-  kategoriId Int
-  xp         Int
-  point      Int
-  deskripsi  String?
-
-  kategori           Kategori           @relation(fields: [kategoriId], references: [id])
+  nama               String
+  xp                 Int
+  point              Int
+  deskripsi          String?
+  id                 Int                @id @default(autoincrement())
+  kategoriId         Int
   panduan_daur_ulang PanduanDaurUlang[]
   riwayat            Riwayat[]
+  kategori           Kategori           @relation(fields: [kategoriId], references: [id])
 
   @@map("sampah")
 }
 
 model PanduanDaurUlang {
-  id       Int    @id @default(autoincrement())
-  sampahId Int
   hasil    String
   langkah  String
-
-  sampah Sampah @relation(fields: [sampahId], references: [id])
+  id       Int    @id @default(autoincrement())
+  sampahId Int
+  sampah   Sampah @relation(fields: [sampahId], references: [id])
 
   @@map("panduan_daur_ulang")
 }
 
 model Riwayat {
-  id       Int      @id @default(autoincrement())
-  userId   Int
-  sampahId Int
   jumlah   Int
   tanggal  DateTime @default(now())
   xp       Int
   point    Int
-
-  user   User   @relation(fields: [userId], references: [id])
-  sampah Sampah @relation(fields: [sampahId], references: [id])
+  id       Int      @id @default(autoincrement())
+  sampahId Int
+  userId   Int
+  sampah   Sampah   @relation(fields: [sampahId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 
   @@map("riwayat")
 }
 
 model Achievement {
-  id               Int     @id @default(autoincrement())
   nama_achievement String
   deskripsi        String?
   target           Int
   reward_xp        Int
-
+  id               Int               @id @default(autoincrement())
   user_achievement UserAchievement[]
 
   @@map("achievement")
 }
 
 model UserAchievement {
-  idt              Int      @id @default(autoincrement())
-  userId           Int
+  tanggal_tercapai DateTime    @default(now())
   archievementId   Int
-  tanggal_tercapai DateTime @default(now())
-
-  user        User        @relation(fields: [userId], references: [id])
-  achievement Achievement @relation(fields: [archievementId], references: [id])
+  idt              Int         @id @default(autoincrement())
+  userId           Int
+  achievement      Achievement @relation(fields: [archievementId], references: [id])
+  user             User        @relation(fields: [userId], references: [id])
 
   @@map("user_achievement")
 }
 
 model Reward {
-  id    Int    @id @default(autoincrement())
-  nama  String
-  jenis String
-  poin  Int
-  stok  Int
-
+  nama             String
+  jenis            String
+  poin             Int
+  stok             Int
+  id               Int               @id @default(autoincrement())
   penukaran_reward PenukaranReward[]
 
   @@map("reward")
 }
 
 model PenukaranReward {
-  id                Int      @id @default(autoincrement())
-  userId            Int
-  rewardId          Int
   tanggal_penukaran DateTime @default(now())
   status            String
-
-  user   User   @relation(fields: [userId], references: [id])
-  reward Reward @relation(fields: [rewardId], references: [id])
+  id                Int      @id @default(autoincrement())
+  rewardId          Int
+  userId            Int
+  reward            Reward   @relation(fields: [rewardId], references: [id])
+  user              User     @relation(fields: [userId], references: [id])
 
   @@map("penukaran_reward")
 }
 
 model Komunitas {
-  id             Int      @id @default(autoincrement())
   nama_komunitas String
   deskripsi      String?
   created_by     Int
-  created_at     DateTime @default(now())
-
-  creator User @relation("KomunitasCreator", fields: [created_by], references: [id])
-
-  anggota Anggota[]
-  post    Post[]
+  created_at     DateTime  @default(now())
+  id             Int       @id @default(autoincrement())
+  anggota        Anggota[]
+  creator        User      @relation("KomunitasCreator", fields: [created_by], references: [id])
+  post           Post[]
 
   @@map("komunitas")
 }
 
 model Anggota {
-  id          Int      @id @default(autoincrement())
+  role        String
+  joined_at   DateTime  @default(now())
+  id          Int       @id @default(autoincrement())
   komunitasId Int
   userId      Int
-  role        String
-  joined_at   DateTime @default(now())
-
-  komunitas Komunitas @relation(fields: [komunitasId], references: [id])
-  user      User      @relation(fields: [userId], references: [id])
+  komunitas   Komunitas @relation(fields: [komunitasId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 
   @@map("anggota")
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
-  komunitasId Int
-  userId      Int
   title       String
   desc        String
   media       String?
-  created_at  DateTime @default(now())
-
-  komunitas Komunitas @relation(fields: [komunitasId], references: [id])
-  user      User      @relation(fields: [userId], references: [id])
+  created_at  DateTime  @default(now())
+  id          Int       @id @default(autoincrement())
+  komunitasId Int
+  userId      Int
+  komunitas   Komunitas @relation(fields: [komunitasId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 
   @@map("post")
 }
