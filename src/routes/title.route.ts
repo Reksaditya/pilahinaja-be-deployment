@@ -10,6 +10,6 @@ router.post("/", controller.create);
 router.patch("/:id", controller.update);
 router.delete("/:id", controller.remove);
 
-router.patch("/:id/updateTitle", controller.updateTitle);
+router.patch("/updateTitle/:id", controller.updateTitle);
 
 export default router;

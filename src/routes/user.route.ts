@@ -14,20 +14,19 @@ router.get("/",
   controller.findAll
 );
 router.get("/:id", controller.findOne);
-router.get("/:id/profile", controller.profile);
+router.get("/profile/:id", controller.profile);
 
-router.post("/", controller.create);
 router.patch("/:id",
   validate(updateUserSchema),
   controller.update
 );
-router.patch("/:id/password",
+router.patch("/password/:id",
   validate(updatePasswordSchema),
   controller.updatePassword
 );
 router.delete("/:id", controller.remove);
 
-router.get("/:id/xp", controller.totalXp);
-router.get("/:id/point", controller.totalPoint);
+router.get("/xp/:id", controller.totalXp);
+router.get("/point/:id", controller.totalPoint);
 
 export default router;

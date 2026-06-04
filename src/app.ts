@@ -13,10 +13,12 @@ import postRoutes from "./routes/post.route";
 import dashboardRoutes from "./routes/dashboard.route";
 import leaderboardRoute from "./routes/leaderboard.route";
 
+import { swaggerSpec, swaggerUi } from "./configs/swagger";
+
 const app = express();
 app.use(express.json());
 
-app.use("/user", userRoutes);
+app.use("/user", userRoutes); 
 app.use("/auth", authRoutes);
 app.use("/title", titleRoutes);
 app.use("/category", categoryRoutes);
@@ -28,5 +30,7 @@ app.use("/achievement", achievementRoutes);
 app.use("/post", postRoutes);
 app.use("/dashboard", dashboardRoutes);
 app.use("/leaderboard", leaderboardRoute);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export default app;

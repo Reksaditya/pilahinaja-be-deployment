@@ -2,18 +2,6 @@ import type { Request, Response } from "express";
 
 import * as service from "../services/user.service.js";
 
-export const create = async (req: Request, res: Response) => {
-  try {
-    const data = await service.createUser(req.body);
-
-    return res.status(201).json(data);
-  } catch (error: any) {
-    return res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
 export const findAll = async (req: Request, res: Response) => {
   try {
     const data = await service.getUsers();
