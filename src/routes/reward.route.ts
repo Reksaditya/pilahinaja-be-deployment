@@ -1,8 +1,8 @@
 import { Router } from "express";
 
-import * as controller from "../controllers/reward.controller";
-import { validate } from "../middlewares/validate.middleware";
-import { redeemRewardSchema, rewardSchema } from "../validations/reward.validation";
+import * as controller from "../controllers/reward.controller.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import { redeemRewardSchema, rewardSchema } from "../validations/reward.validation.js";
 
 const router = Router();
 

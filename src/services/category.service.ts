@@ -1,4 +1,4 @@
-import prisma from "../configs/prisma"
+import prisma from "../configs/prisma.js"
 
 export const createCategory = (data:any) => {
   return prisma.kategori.create({ data });

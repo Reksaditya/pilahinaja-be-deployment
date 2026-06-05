@@ -1,4 +1,4 @@
-import prisma from "../configs/prisma";
+import prisma from "../configs/prisma.js";
 import bcrypt from "bcrypt";
 
 export const getUsers = async () => {

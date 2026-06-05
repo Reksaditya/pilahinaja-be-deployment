@@ -1,5 +1,5 @@
-import prisma from "../configs/prisma";
-import { genAI, geminiModel } from "../configs/gemini";
+import prisma from "../configs/prisma.js";
+import { genAI, geminiModel } from "../configs/gemini.js";
 
 export const detectWaste = async (image: Buffer) => {
   const prompt = `

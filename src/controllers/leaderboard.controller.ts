@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-import * as service from "../services/leaderboard.service";
+import * as service from "../services/leaderboard.service.js";
 
 export const getLeaderboard = async (req: Request, res: Response) => {
   try {

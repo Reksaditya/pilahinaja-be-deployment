@@ -1,5 +1,5 @@
-import prisma from "../configs/prisma";
-import { getTotalXP } from "./user.service";
+import prisma from "../configs/prisma.js";
+import { getTotalXP } from "./user.service.js";
 
 export const createTitle = async (data: any) => {
   return prisma.title.create({ data });

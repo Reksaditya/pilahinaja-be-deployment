@@ -1,28 +1,28 @@
-import prisma from "../configs/prisma"
+import prisma from "../configs/prisma.js";
 
-export const createGuide = async (data:any) => {
-  return prisma.panduanDaurUlang.create({ data })
-}
+export const createGuide = async (data: any) => {
+  return prisma.panduanDaurUlang.create({ data });
+};
 
 export const getGuides = () => {
-  return prisma.panduanDaurUlang.findMany()
-}
+  return prisma.panduanDaurUlang.findMany();
+};
 
-export const getGuide = (id:number) => {
+export const getGuide = (id: number) => {
   return prisma.panduanDaurUlang.findUnique({
-    where: {id}
-  })
-}
+    where: { id },
+  });
+};
 
-export const updateGuide = (id:number, data:any) => {
+export const updateGuide = (id: number, data: any) => {
   return prisma.panduanDaurUlang.update({
-    where: {id},
-    data
-  })
-}
+    where: { id },
+    data,
+  });
+};
 
-export const deleteGuide = (id:number) => {
+export const deleteGuide = (id: number) => {
   return prisma.panduanDaurUlang.delete({
-    where: {id}
-  })
-}
+    where: { id },
+  });
+};

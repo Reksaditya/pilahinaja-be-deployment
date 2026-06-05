@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { GoogleGenAI } from "@google/genai";
 
-import * as service from "../services/gemini.service";
+import * as service from "../services/gemini.service.js";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY!,

@@ -1,6 +1,6 @@
-import prisma from "../configs/prisma";
-import { checkAchievement } from "./achievement.service";
-import { updateUserTitle } from "./title.service";
+import prisma from "../configs/prisma.js";
+import { checkAchievement } from "./achievement.service.js";
+import { updateUserTitle } from "./title.service.js";
 
 export const createRiwayat = async (
   userId: number,

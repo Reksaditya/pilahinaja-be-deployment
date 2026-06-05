@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import * as service from "../services/post.service";
+import * as service from "../services/post.service.js";
 
 export const create = async (req: Request, res: Response) => {
   try {

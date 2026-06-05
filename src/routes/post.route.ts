@@ -2,7 +2,7 @@ import { Router }
 from "express";
 
 import * as controller
-from "../controllers/post.controller";
+from "../controllers/post.controller.js";
 
 const router = Router();
 
