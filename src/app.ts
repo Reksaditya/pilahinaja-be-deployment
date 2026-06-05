@@ -18,6 +18,12 @@ import { swaggerSpec, swaggerUi } from "./configs/swagger";
 const app = express();
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.json({
+    status: "success",
+    message: "Backend API is running"
+  });
+});
 app.use("/user", userRoutes); 
 app.use("/auth", authRoutes);
 app.use("/title", titleRoutes);
