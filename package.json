@@ -34,6 +34,6 @@
   "scripts": {
     "dev": "bun --watch src/server.ts",
     "seed": "tsx prisma/seed.ts",
-    "build": "tsc"
+    "build": "prisma generate && tsc"
   }
 }
