@@ -1,19 +1,19 @@
 import express from "express";
 
-import userRoutes from "./routes/user.route";
-import titleRoutes from "./routes/title.route";
-import categoryRoutes from "./routes/category.route";
-import trashRoutes from "./routes/trash.route";
-import geminiRoutes from "./routes/gemini.route";
-import guideRoutes from "./routes/guide.route";
-import historyRoutes from "./routes/history.route";
-import authRoutes from "./routes/auth.route";
-import achievementRoutes from "./routes/achievement.route";
-import postRoutes from "./routes/post.route";
-import dashboardRoutes from "./routes/dashboard.route";
-import leaderboardRoute from "./routes/leaderboard.route";
+import userRoutes from "./routes/user.route.js";
+import titleRoutes from "./routes/title.route.js";
+import categoryRoutes from "./routes/category.route.js";
+import trashRoutes from "./routes/trash.route.js";
+import geminiRoutes from "./routes/gemini.route.js";
+import guideRoutes from "./routes/guide.route.js";
+import historyRoutes from "./routes/history.route.js";
+import authRoutes from "./routes/auth.route.js";
+import achievementRoutes from "./routes/achievement.route.js";
+import postRoutes from "./routes/post.route.js";
+import dashboardRoutes from "./routes/dashboard.route.js";
+import leaderboardRoute from "./routes/leaderboard.route.js";
 
-import { swaggerSpec, swaggerUi } from "./configs/swagger";
+import { swaggerSpec, swaggerUi } from "./configs/swagger.js";
 
 const app = express();
 app.use(express.json());
