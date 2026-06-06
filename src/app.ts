@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 import userRoutes from "./routes/user.route.js";
 import titleRoutes from "./routes/title.route.js";
@@ -12,6 +13,7 @@ import achievementRoutes from "./routes/achievement.route.js";
 import postRoutes from "./routes/post.route.js";
 import dashboardRoutes from "./routes/dashboard.route.js";
 import leaderboardRoute from "./routes/leaderboard.route.js";
+import uploadRoutes from "./routes/upload.route.js";
 
 import { swaggerSpec, swaggerUi } from "./configs/swagger.js";
 
@@ -24,6 +26,10 @@ app.get("/", (req, res) => {
     message: "Backend API is running"
   });
 });
+
+app.use(cors());
+
+app.use("/upload", uploadRoutes);
 app.use("/user", userRoutes); 
 app.use("/auth", authRoutes);
 app.use("/title", titleRoutes);

@@ -9,10 +9,16 @@ export const getUsers = async () => {
   });
 };
 
-export const getUser = async (id: number) => {
+export const getUser = async (id: number | string) => {
+  const userId = Number(id);
+
+  if (!userId || isNaN(userId)) {
+    throw new Error("Invalid user id");
+  }
+
   return await prisma.user.findUnique({
     where: {
-      id,
+      id: userId,
     },
     include: {
       title: true,
@@ -64,7 +70,7 @@ export const getUserProfile = async (userId: number) => {
 export const getTotalXP = async (id: number) => {
   const result = await prisma.userXP.aggregate({
     where: {
-      id,
+      userId: id,
     },
     _sum: {
       xp: true,
@@ -77,7 +83,7 @@ export const getTotalXP = async (id: number) => {
 export const getTotalPoint = async (id: number) => {
   const result = await prisma.userPoints.aggregate({
     where: {
-      id,
+      userId: id,
     },
     _sum: {
       points: true,

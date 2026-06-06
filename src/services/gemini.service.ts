@@ -1,12 +1,11 @@
 import prisma from "../configs/prisma.js";
 import { genAI, geminiModel } from "../configs/gemini.js";
 
-export const detectWaste = async (image: Buffer) => {
+export const detectWaste = async (image: Buffer, mimeType: string) => {
   const prompt = `
-Identifikasi sampah.
+Identifikasi sampah dari gambar.
 
-Kembalikan HANYA JSON:
-
+Kembalikan HANYA JSON seperti ini:
 {
   "nama": "",
   "kategori": "",
@@ -19,7 +18,7 @@ Kembalikan HANYA JSON:
     contents: [
       {
         inlineData: {
-          mimeType: "image/jpeg",
+          mimeType,
           data: image.toString("base64"),
         },
       },
@@ -27,20 +26,35 @@ Kembalikan HANYA JSON:
     ],
   });
 
-  console.log(result.text);
+  const text = result.text || "";
 
-  let jsonText = result.text ?? "{}";
-  const jsonMatch = jsonText.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (jsonMatch) {
-    jsonText = jsonMatch[1]!.trim();
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+
+  if (start === -1 || end === -1) {
+    return {
+      source: "AI",
+      error: "Invalid AI response",
+      raw: text,
+    };
   }
 
-  const response = JSON.parse(jsonText) as { nama?: string; kategori?: string; deskripsi?: string }; 
+  let parsed;
+
+  try {
+    parsed = JSON.parse(text.slice(start, end + 1));
+  } catch (err) {
+    return {
+      source: "AI",
+      error: "JSON parse failed",
+      raw: text,
+    };
+  }
 
   const sampah = await prisma.sampah.findFirst({
     where: {
       nama: {
-        contains: response.nama || "",
+        contains: parsed.nama || "",
         mode: "insensitive",
       },
     },
@@ -53,14 +67,14 @@ Kembalikan HANYA JSON:
   if (!sampah) {
     return {
       source: "AI",
-      ...response,
+      ...parsed,
     };
   }
 
   return {
     source: "DATABASE",
     nama: sampah.nama,
-    kategori: sampah.kategori.nama_kategori,
+    kategori: sampah.kategori?.nama_kategori,
     xp: sampah.xp,
     point: sampah.point,
     deskripsi: sampah.deskripsi,
